@@ -13,3 +13,6 @@ Game board is represented by a 6x7 2D array as the standard size of a Connect 4 
 * There must be at least 7 pieces on the board before a winning scenario can happen.
 * After every piece is placed on the board, the program will check if there are any lines of 4 in any direction.
 * Game loop runs until either a player has connected 4 in a line or the board is filled.
+
+### TODO
+* implement remaining test cases
