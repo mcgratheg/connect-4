@@ -6,6 +6,7 @@ import java.util.Scanner;
 /**
  * Enum holds list of states of board pieces, R = RED, Y = YELLOW, e = EMPTY
  * represented by single characters for clear display
+ * 
  * @author eibhl
  * 
  */
@@ -16,16 +17,19 @@ enum Colour {
 
 /**
  * Connect 4 game between 2 players
+ * 
  * @author eibhl
  *
  */
 public class Connect4 {
-	public static Colour[][] board;	// 2D array to represent board
-	public static Colour[] player;	// array of players by colour
-	static Scanner scanner = new Scanner(System.in);	// Scanner for user input
+	public static Colour[][] board; // 2D array to represent board
+	public static Colour[] player; // array of players by colour
+	static Scanner scanner = new Scanner(System.in); // Scanner for user input
 
 	/**
-	 * Player 1 is asked which colour they wish to play and player array is set accordingly
+	 * Player 1 is asked which colour they wish to play and player array is set
+	 * accordingly
+	 * 
 	 * @param scanner
 	 * @param player
 	 */
@@ -44,8 +48,11 @@ public class Connect4 {
 		}
 
 	}
+
 	/**
-	 * Player is asked for number between 1 and 7 for the column they wish to 'drop' their piece into
+	 * Player is asked for number between 1 and 7 for the column they wish to 'drop'
+	 * their piece into
+	 * 
 	 * @param scanner
 	 * @return column number
 	 */
@@ -54,11 +61,13 @@ public class Connect4 {
 		int column = scanner.nextInt() - 1;
 		return column;
 	}
-	
+
 	/**
-	 * Piece will be placed on the board in the next empty space in the column selected by the player
-	 * if no empty space exists in the column the player is asked to choose another column and the method is recalled
-	 * board is printed to console when piece is placed
+	 * Piece will be placed on the board in the next empty space in the column
+	 * selected by the player if no empty space exists in the column the player is
+	 * asked to choose another column and the method is recalled board is printed to
+	 * console when piece is placed
+	 * 
 	 * @param board
 	 * @param column
 	 * @param player
@@ -78,15 +87,12 @@ public class Connect4 {
 			}
 		}
 
-		for (int i = board.length - 1; i >= 0; i--) {
-			System.out.println(Arrays.toString(board[i]));
-		}
-
 		return board;
 	}
 
 	/**
 	 * Checks board for 4 pieces of same colour in a horizontal line
+	 * 
 	 * @param board
 	 * @param win
 	 * @return win boolean
@@ -116,6 +122,7 @@ public class Connect4 {
 
 	/**
 	 * Checks board for 4 pieces of same colour in a vertical line
+	 * 
 	 * @param board
 	 * @param win
 	 * @return win boolean
@@ -144,7 +151,9 @@ public class Connect4 {
 	}
 
 	/**
-	 * Checks board for 4 pieces in a diagonal line pointing up towards the top right corner
+	 * Checks board for 4 pieces in a diagonal line pointing up towards the top
+	 * right corner
+	 * 
 	 * @param board
 	 * @param win
 	 * @return win boolean
@@ -173,7 +182,9 @@ public class Connect4 {
 	}
 
 	/**
-	 * Checks board for 4 pieces in a diagonal line pointing down towards the bottom right corner
+	 * Checks board for 4 pieces in a diagonal line pointing down towards the bottom
+	 * right corner
+	 * 
 	 * @param board
 	 * @param win
 	 * @return win boolean
@@ -203,13 +214,14 @@ public class Connect4 {
 
 	/**
 	 * Main game method
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		board = new Colour[6][7];	// Initialise board array
-		player = new Colour[2];	// initialise player array
-		boolean win = false;	// initialise win state
-		int turn = 1, column = -1;	// begin at turn 1
+		board = new Colour[6][7]; // Initialise board array
+		player = new Colour[2]; // initialise player array
+		boolean win = false; // initialise win state
+		int turn = 1, column = -1; // begin at turn 1
 
 		// begin game with every board space empty
 		for (int i = 0; i < board.length; i++) {
@@ -218,16 +230,21 @@ public class Connect4 {
 			}
 		}
 
-		player1Selection(scanner, player);	// Player 1 selects colour
-		Colour currentPlayer = player[0];	// current player set to Player 1
+		player1Selection(scanner, player); // Player 1 selects colour
+		Colour currentPlayer = player[0]; // current player set to Player 1
 
 		// game loop runs until a player wins or board is filled
 		while (!win && turn <= board.length * board[0].length) {
 			do {
-				column = chooseColumn(scanner);	// current player chooses a column
+				column = chooseColumn(scanner); // current player chooses a column
 			} while (column < 0 || column > 6);
-			placePiece(board, column, currentPlayer);	// piece is placed on board
+			placePiece(board, column, currentPlayer); // piece is placed on board
 
+			// board is printed to screen
+			for (int i = board.length - 1; i >= 0; i--) {
+				System.out.println(Arrays.toString(board[i]));
+			}
+			
 			// game must have gone at least 7 turns to have a possible win
 			// checks each possible win type unless win is found true
 			if (turn >= 7) {
@@ -246,10 +263,11 @@ public class Connect4 {
 			else if (currentPlayer == player[1])
 				currentPlayer = player[0];
 
-			turn++;	// increase turn count by 1
-		}	// game loop ends
+			turn++; // increase turn count by 1
+		} // game loop ends
 
-		// if board was not filled i.e. game was not a draw, the last player to place a piece is the winner
+		// if board was not filled i.e. game was not a draw, the last player to place a
+		// piece is the winner
 		// game result printed to screen
 		if (turn <= board.length * board[0].length) {
 			if (currentPlayer == Colour.Y)
@@ -262,7 +280,7 @@ public class Connect4 {
 
 		System.out.println("Game ended.");
 
-		scanner.close();	// close scanner
+		scanner.close(); // close scanner
 	}
 
 }
