@@ -2,8 +2,7 @@ package mcgratheg;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.util.InputMismatchException;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,8 +21,6 @@ class Connect4Test {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		validInput = "1";
-
 		validColumnLowerInt = 0;
 		validColumnUpperInt = 6;
 		invalidColumnLowerInt = -1;
@@ -39,7 +36,7 @@ class Connect4Test {
 			}
 		}
 		
-		drawBoard = emptyBoard;
+		drawBoard = new Colour[6][7];
 		for (int row = 0; row < drawBoard.length; row++) {
 			for (int col = 0; col < drawBoard[0].length; col++) {
 				if (col%2 == 0 || col == 3) {
@@ -62,11 +59,20 @@ class Connect4Test {
 	}
 
 	@Test
-	void testChooseColumn() {
-		InputStream in = new ByteArrayInputStream(validInput.getBytes());
-		System.setIn(in);
-
+	void testChooseColumnValid() {
+		// test takes user input, please enter '1' when running test
 		assertEquals(0, Connect4.chooseColumn());
+	}
+	
+	@Test
+	void testChooseColumnInvalid() {
+		// test for user input mismatch, please enter not an int
+		Assertions.assertThrows(InputMismatchException.class, new Executable() {
+			@Override
+			public void execute() throws Throwable {
+				Connect4.chooseColumn();
+			}
+		});
 	}
 
 	@Test
@@ -75,8 +81,8 @@ class Connect4Test {
 		testBoard[0][validColumnLowerInt] = validColourRed;
 		assertEquals(testBoard, Connect4.placePiece(emptyBoard, validColumnLowerInt, validColourRed));
 		
-		testBoard = emptyBoard;
-		testBoard[0][validColumnUpperInt] = validColourRed;
+		Colour[][] testBoard2 = emptyBoard;
+		testBoard2[0][validColumnUpperInt] = validColourRed;
 		assertEquals(testBoard, Connect4.placePiece(emptyBoard, validColumnUpperInt, validColourRed));
 	}
 
@@ -110,18 +116,60 @@ class Connect4Test {
 	}
 
 	@Test
-	void testCheckVertical() {
-		fail("Not yet implemented");
+	void testCheckVerticalTrue() {
+		verticalWinLower = emptyBoard;
+		verticalWinUpper = emptyBoard;
+		for (int i = 0; i <=3; i++) {
+			verticalWinLower[i][0] = validColourRed;
+			verticalWinUpper[(emptyBoard.length - 1) - i][0] = validColourRed;
+		}
+		
+		assertEquals(true, Connect4.checkVertical(verticalWinLower, gameOver));
+		assertEquals(true, Connect4.checkVertical(verticalWinUpper, gameOver));
+	}
+	
+	@Test
+	void testCheckVerticalFalse() {
+		assertEquals(false, Connect4.checkVertical(emptyBoard, gameOver));
+		assertEquals(false, Connect4.checkVertical(drawBoard, gameOver));
 	}
 
 	@Test
-	void testCheckDiagonalPositive() {
-		fail("Not yet implemented");
+	void testCheckDiagonalPositiveTrue() {
+		diagonalPositiveWinLower = emptyBoard;
+		diagonalPositiveWinUpper = emptyBoard;
+		for (int i = 0; i<=3; i++) {
+			diagonalPositiveWinLower[0 + i][0 + i] = validColourRed;
+			diagonalPositiveWinUpper[(emptyBoard.length/2 - 1) + i][(emptyBoard[0].length/2) + i] = validColourRed;
+		}
+		
+		assertEquals(true, Connect4.checkDiagonalPositive(diagonalPositiveWinLower, gameOver));
+		assertEquals(true, Connect4.checkDiagonalPositive(diagonalPositiveWinUpper, gameOver));
+	}
+	
+	@Test
+	void testCheckDiagonalPositiveFalse() {
+		assertEquals(false, Connect4.checkDiagonalPositive(emptyBoard, gameOver));
+		assertEquals(false, Connect4.checkDiagonalPositive(drawBoard, gameOver));
 	}
 
 	@Test
-	void testCheckDiagonalNegative() {
-		fail("Not yet implemented");
+	void testCheckDiagonalNegativeTrue() {
+		diagonalNegativeWinLower = emptyBoard;
+		diagonalNegativeWinUpper = emptyBoard;
+		for (int i = 0; i<=3; i++) {
+			diagonalNegativeWinLower[(emptyBoard.length - 1) - i][0 + i] = validColourRed;
+			diagonalNegativeWinUpper[(emptyBoard.length - 1) - i][(emptyBoard[0].length/2) + i] = validColourRed;
+		}
+		
+		assertEquals(true, Connect4.checkDiagonalNegative(diagonalNegativeWinLower, gameOver));
+		assertEquals(true, Connect4.checkDiagonalNegative(diagonalNegativeWinUpper, gameOver));
+	}
+	
+	@Test
+	void testCheckDiagonalNegativeFalse() {
+		assertEquals(false, Connect4.checkDiagonalNegative(emptyBoard, gameOver));
+		assertEquals(false, Connect4.checkDiagonalNegative(drawBoard, gameOver));
 	}
 
 }
