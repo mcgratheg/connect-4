@@ -7,6 +7,9 @@ Game board is represented by a 6x7 2D array as the standard size of a Connect 4 
 * Java v8
 * JUnit5
 
+## To Run
+Clone the repositiory, in cmd navigate to 'src' folder, compile 'mcgratheg' package, run 'mcgratheg/Connect4'.
+
 ## Notes
 * Player 1 is asked which colour they wish to play, either "RED" or "YELLOW" (case is ignored in user entry).
 * Board represents state of spaces as 'R' for RED, 'Y' for YELLOW, or 'e' if the space is empty.
