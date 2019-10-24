@@ -83,7 +83,7 @@ public class Connect4 {
 				do {
 					column = chooseColumn();
 				} while (column < 0 || column > 6);
-				placePiece(board, column, player);
+				return placePiece(board, column, player);
 			}
 		}
 
