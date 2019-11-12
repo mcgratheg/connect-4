@@ -65,8 +65,7 @@ public class Connect4 {
 	/**
 	 * Piece will be placed on the board in the next empty space in the column
 	 * selected by the player. If no empty space exists in the column the player is
-	 * asked to choose another column and the method is recalled. Board is printed to
-	 * console when piece is placed
+	 * asked to choose another column and the method is recalled.
 	 * 
 	 * @param board
 	 * @param column
