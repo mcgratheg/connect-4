@@ -49,6 +49,12 @@ public class Connect4 {
 
 	}
 
+	/**
+	* @param array of players
+	* @param target current player
+	* @return current player number
+	*
+	*/
 	public static int indexOfPlayer(Colour[] array, Colour target) {
 		return Arrays.asList(array).indexOf(target) + 1;
 	}
