@@ -43,10 +43,14 @@ public class Connect4 {
 			player[0] = Colour.Y;
 			player[1] = Colour.R;
 		} else {
-			System.out.println("Error, please try again.");
+			System.out.println("\nError, please try again.");
 			player1Selection(player);
 		}
 
+	}
+
+	public static int indexOfPlayer(Colour[] array, Colour target) {
+		return Arrays.asList(array).indexOf(target) + 1;
 	}
 
 	/**
@@ -57,7 +61,7 @@ public class Connect4 {
 	 * @return column number
 	 */
 	public static int chooseColumn() {
-		System.out.println("\nPlease choose a number between 1 and 7");
+		System.out.println("please choose a number between 1 and 7");
 		int column = scanner.nextInt() - 1;
 		return column;
 	}
@@ -70,19 +74,21 @@ public class Connect4 {
 	 * @param board
 	 * @param column
 	 * @param player
+	 * @param currentPlayer
 	 * @return board with new piece added
 	 */
-	public static Colour[][] placePiece(Colour[][] board, int column, Colour player) {
+	public static Colour[][] placePiece(Colour[][] board, int column, Colour[] player, Colour currentPlayer) {
 		for (int row = 0; row < board.length; row++) {
 			if (board[row][column] == Colour.e) {
-				board[row][column] = player;
+				board[row][column] = currentPlayer;
 				break;
 			} else if (row == board.length - 1 && board[row][column] != Colour.e) {
-				System.out.println("Column is already full!");
+				System.out.println("\nColumn is already full!");
 				do {
+					System.out.print("\nPlayer " + indexOfPlayer(player, currentPlayer) + ", ");
 					column = chooseColumn();
 				} while (column < 0 || column > 6);
-				return placePiece(board, column, player);
+				return placePiece(board, column, player, currentPlayer);
 			}
 		}
 
@@ -236,9 +242,10 @@ public class Connect4 {
 			// game loop runs until a player wins or board is filled
 			do {
 				do {
+					System.out.print("\nPlayer " + indexOfPlayer(player, currentPlayer) + ", ");
 					column = chooseColumn(); // current player chooses a column
 				} while (column < 0 || column > 6);
-				placePiece(board, column, currentPlayer); // piece is placed on board
+				placePiece(board, column, player, currentPlayer); // piece is placed on board
 
 				// board is printed to screen
 				for (int i = board.length - 1; i >= 0; i--) {
@@ -280,9 +287,9 @@ public class Connect4 {
 				System.out.println("\nDraw");
 			}
 		} catch (Exception e) {
-			System.out.println("Error occured!");
+			System.out.println("\nError occured!");
 		}
-		System.out.println("Game ended.");
+		System.out.println("\nGame ended.");
 
 		scanner.close(); // close scanner
 	}
